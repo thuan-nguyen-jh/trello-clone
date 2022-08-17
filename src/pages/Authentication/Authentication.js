@@ -12,6 +12,7 @@ class Authentication extends React.Component {
   render() {
     const { currentUser } = this.props;
     const isLoginPage = this.props.location.pathname === Endpoint.login;
+    const navigationMessage = this.props.history.location.state?.message;
     const headerLinks = [
       {
         header: 'Login',
@@ -37,6 +38,7 @@ class Authentication extends React.Component {
             src={logo}
             alt="logo"
           />
+          {navigationMessage && <div className="navigate-message">{navigationMessage}</div>}
           <AuthenticationFormHeader
             currentPath={this.props.location.pathname}
             links={headerLinks}

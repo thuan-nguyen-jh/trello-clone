@@ -25,3 +25,13 @@
 .authentication-panel > form {
   margin-top: 10px;
 }
+
+.authentication-panel .navigate-message {
+  padding: 5px;
+  margin-top: 10px;
+  text-align: center;
+  font-style: italic;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+  border-radius: 5px;
+}
