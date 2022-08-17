@@ -7,8 +7,7 @@ import SelectField from '../../Fields/SelectField/SelectField';
 import UserPosition from '../../../data/UserPosition';
 import LoadingButton from '../../Button/LoadingButton/LoadingButton';
 import composeValidators, { required, matchPattern, lengthInRange } from '../../../utils/validator';
-import { createNewAccount } from '../../../utils/firebase';
-import Endpoint from '../../../data/Endpoint';
+import { createNewAccount, logout } from '../../../utils/firebase';
 
 import '../Form.css';
 
@@ -17,14 +16,9 @@ class SignUpForm extends React.Component {
     const { email, password, name, position } = values;
     try {
       await createNewAccount(email, password, name, position);
-      this.navigateToLogin();
     } catch (error) {
       return { [FORM_ERROR]: error.message };
     }
-  }
-
-  navigateToLogin() {
-    this.props.history.push(Endpoint.login, { message: "Your account created successfully" });
   }
 
   render() {

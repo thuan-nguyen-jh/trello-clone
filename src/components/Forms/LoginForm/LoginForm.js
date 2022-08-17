@@ -6,7 +6,6 @@ import TextField from '../../Fields/TextField/TextField';
 import LoadingButton from '../../Button/LoadingButton/LoadingButton';
 import composeValidators, { required, matchPattern, lengthInRange } from '../../../utils/validator';
 import { login } from '../../../utils/firebase';
-import Endpoint from '../../../data/Endpoint';
 
 import '../Form.css';
 
@@ -15,14 +14,9 @@ class LoginForm extends React.Component {
     const { email, password } = values;
     try {
       await login(email, password);
-      this.navigateToHome();
     } catch (error) {
       return { [FORM_ERROR]: error.message };
     }
-  }
-
-  navigateToHome() {
-    this.props.history.push(Endpoint.home);
   }
 
   render() {
