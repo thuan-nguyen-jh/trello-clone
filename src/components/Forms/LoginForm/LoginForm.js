@@ -17,13 +17,14 @@ class LoginForm extends React.Component {
   }
 
   render() {
+    const { submitButtonText } = this.props;
     const { email, password } = fields;
     const loginFields = [email, password];
     return (
       <AuthForm
         onSubmit={this.handleSubmit.bind(this)}
         fields={loginFields}
-        submitButtonText="Login"
+        submitButtonText={submitButtonText}
       />
     );
   }

@@ -17,12 +17,13 @@ class SignUpForm extends React.Component {
   }
 
   render() {
+    const { submitButtonText } = this.props;
     const signUpFields = Object.values(fields);
     return (
       <AuthForm
         onSubmit={this.handleSubmit.bind(this)}
         fields={signUpFields}
-        submitButtonText="Sign Up"
+        submitButtonText={submitButtonText}
       />
     );
   }

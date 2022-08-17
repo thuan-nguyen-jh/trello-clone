@@ -3,6 +3,7 @@ import React from 'react';
 import LoginForm from '../../components/Forms/LoginForm/LoginForm';
 import SignUpForm from '../../components/Forms/SignUpForm/SignUpForm';
 import AuthenticationFormHeader from '../../components/Headers/AuthenticationFormHeader/AuthenticationFormHeader';
+import authLinks from '../../data/authLinks';
 import endpoint from '../../data/endpoint';
 import logo from '../../assets/images/logo.png';
 
@@ -13,23 +14,11 @@ class Authentication extends React.Component {
     const { location, history, currentUser } = this.props;
     const isLoginPage = location.pathname === endpoint.login;
     const navigationMessage = history.location.state?.message;
-    const headerLinks = [
-      {
-        header: 'Login',
-        subHeader: 'Login to your account',
-        endpoint: endpoint.login,
-      },
-      {
-        header: 'Sign Up',
-        subHeader: 'Create a new account',
-        endpoint: endpoint.signUp,
-      }
-    ];
 
     if (currentUser !== null) {
       return <Redirect to={endpoint.home} />;
     }
-    
+
     return (
       <div className="authentication-container">
         <div className="authentication-panel">
@@ -41,9 +30,12 @@ class Authentication extends React.Component {
           {navigationMessage && <div className="navigate-message">{navigationMessage}</div>}
           <AuthenticationFormHeader
             currentPath={location.pathname}
-            links={headerLinks}
+            links={Object.values(authLinks)}
           />
-          {isLoginPage ? <LoginForm /> : <SignUpForm />}
+          {isLoginPage
+            ? <LoginForm submitButtonText={authLinks.login.header} />
+            : <SignUpForm submitButtonText={authLinks.signUp.header} />
+          }
         </div>
       </div>
     );
