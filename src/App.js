@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Authentication from './pages/Authentication/Authentication';
 import UserInfo from "./pages/UserInfo/UserInfo";
 
-import Endpoint from "./data/Endpoint";
+import endpoint from "./data/endpoint";
 import { onUserStateChanged } from "./utils/firebase";
 
 export default class App extends React.Component {
@@ -25,12 +25,12 @@ export default class App extends React.Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route exact path={Endpoint.home}>
+          <Route exact path={endpoint.home}>
             <UserInfo
               currentUser={user}
             />
           </Route>
-          <Route path={[Endpoint.login, Endpoint.signUp]}>
+          <Route path={[endpoint.login, endpoint.signUp]}>
             <Authentication
               currentUser={user}
             />

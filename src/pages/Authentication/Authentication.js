@@ -4,30 +4,30 @@ import SignUpForm from '../../components/Forms/SignUpForm/SignUpForm';
 import AuthenticationFormHeader from '../../components/Headers/AuthenticationFormHeader/AuthenticationFormHeader';
 
 import './Authentication.css';
-import Endpoint from '../../data/Endpoint';
+import endpoint from '../../data/endpoint';
 import logo from '../../assets/images/logo.png';
 import { Redirect, withRouter } from 'react-router-dom';
 
 class Authentication extends React.Component {
   render() {
     const { currentUser } = this.props;
-    const isLoginPage = this.props.location.pathname === Endpoint.login;
+    const isLoginPage = this.props.location.pathname === endpoint.login;
     const navigationMessage = this.props.history.location.state?.message;
     const headerLinks = [
       {
         header: 'Login',
         subHeader: 'Login to your account',
-        endpoint: Endpoint.login,
+        endpoint: endpoint.login,
       },
       {
         header: 'Sign Up',
         subHeader: 'Create a new account',
-        endpoint: Endpoint.signUp,
+        endpoint: endpoint.signUp,
       }
     ];
 
     if (currentUser !== null) {
-      return <Redirect to={Endpoint.home} />;
+      return <Redirect to={endpoint.home} />;
     }
     
     return (

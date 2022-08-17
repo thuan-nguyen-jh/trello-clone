@@ -4,10 +4,10 @@ import { withRouter } from 'react-router-dom';
 import React from "react";
 import TextField from '../../Fields/TextField/TextField';
 import SelectField from '../../Fields/SelectField/SelectField';
-import UserPosition from '../../../data/UserPosition';
+import userPosition from '../../../data/userPosition';
 import LoadingButton from '../../Button/LoadingButton/LoadingButton';
 import composeValidators, { required, matchPattern, lengthInRange } from '../../../utils/validator';
-import { createNewAccount, logout } from '../../../utils/firebase';
+import { createNewAccount } from '../../../utils/firebase';
 
 import '../Form.css';
 
@@ -71,7 +71,7 @@ class SignUpForm extends React.Component {
             <SelectField
               name="position"
               label="Position"
-              options={UserPosition}
+              options={userPosition}
               placeholder={userPositionPlaceholder}
               validator={required(positionRequiredErrorText)}
             />

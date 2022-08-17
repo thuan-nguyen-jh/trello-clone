@@ -1,4 +1,4 @@
-const UserPosition = [
+const userPosition = [
   { id: "FE", name: "Front-end developer" },
   { id: "BE", name: "Back-end developer" },
   { id: "fullstack", name: "Full-stack developer" },
@@ -10,4 +10,4 @@ const UserPosition = [
   { id: "tester", name: "Tester" },
 ];
 
-export default UserPosition;
+export default userPosition;
