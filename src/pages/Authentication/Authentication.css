@@ -9,15 +9,19 @@
 }
 
 .authentication-panel {
+  flex-basis: 400px;
   background-color: white;
   padding: 30px;
   
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 .authentication-panel > .logo {
   height: 100px;
+  align-self: center;
+}
 
+.authentication-panel > form {
+  margin-top: 10px;
 }
