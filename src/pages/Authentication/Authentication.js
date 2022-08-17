@@ -6,10 +6,12 @@ import AuthenticationFormHeader from '../../components/Headers/AuthenticationFor
 import './Authentication.css';
 import Endpoint from '../../data/Endpoint';
 import logo from '../../assets/images/logo.png';
+import { Redirect, withRouter } from 'react-router-dom';
 
-export default class Authentication extends React.Component {
+class Authentication extends React.Component {
   render() {
-    const isLoginPage = this.props.location.pathname === '/login';
+    const { currentUser } = this.props;
+    const isLoginPage = this.props.location.pathname === Endpoint.login;
     const headerLinks = [
       {
         header: 'Login',
@@ -22,6 +24,10 @@ export default class Authentication extends React.Component {
         endpoint: Endpoint.signUp,
       }
     ];
+
+    if (currentUser !== null) {
+      return <Redirect to={Endpoint.home} />;
+    }
     
     return (
       <div className="authentication-container">
@@ -41,3 +47,5 @@ export default class Authentication extends React.Component {
     );
   }
 }
+
+export default withRouter(Authentication);
