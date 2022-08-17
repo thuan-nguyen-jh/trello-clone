@@ -13,7 +13,7 @@ export default class SelectField extends React.Component {
         defaultValue={defaultValue ? defaultValue : ""}
         {...fieldProps}
       >
-        {({ input, meta }) => (
+        {({ input, meta:{ touched, error } }) => (
           <div className="field">
             <div className="label">{label}</div>
             <select {...input}>
@@ -24,7 +24,7 @@ export default class SelectField extends React.Component {
                 </option>
               ))}
             </select>
-            {meta.error && meta.touched && <div className='error-text'>{meta.error}</div>}
+            {error && touched && <div className='error-text'>{error}</div>}
           </div>
         )}
       </Field>
