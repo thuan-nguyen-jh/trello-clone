@@ -10,9 +10,9 @@ import './Authentication.css';
 
 class Authentication extends React.Component {
   render() {
-    const { currentUser } = this.props;
-    const isLoginPage = this.props.location.pathname === endpoint.login;
-    const navigationMessage = this.props.history.location.state?.message;
+    const { location, history, currentUser } = this.props;
+    const isLoginPage = location.pathname === endpoint.login;
+    const navigationMessage = history.location.state?.message;
     const headerLinks = [
       {
         header: 'Login',
@@ -40,7 +40,7 @@ class Authentication extends React.Component {
           />
           {navigationMessage && <div className="navigate-message">{navigationMessage}</div>}
           <AuthenticationFormHeader
-            currentPath={this.props.location.pathname}
+            currentPath={location.pathname}
             links={headerLinks}
           />
           {isLoginPage ? <LoginForm /> : <SignUpForm />}
