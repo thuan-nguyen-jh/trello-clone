@@ -1,7 +1,7 @@
-const Endpoint = {
+const endpoint = {
   home: '/',
   login: "/login",
   signUp: "/sign-up",
 };
 
-export default Endpoint;
+export default endpoint;
