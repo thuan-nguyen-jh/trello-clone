@@ -1,3 +1,26 @@
+button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 0;
+  background-color: var(--primary-color);
+  color: white;
+  cursor: pointer;
+}
+
+button:disabled,
+button[disabled] {
+  background-color: var(--disabled-color);
+  cursor: not-allowed;
+}
+
+button.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: wait;
+}
+
 button.loading::after {
   content: "";
   display: inline-block;

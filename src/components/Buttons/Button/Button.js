@@ -1,16 +1,18 @@
 import React from 'react';
 
-import '../Button.css';
-import './LoadingButton.css';
+import './Button.css';
 
-export default class LoadingButton extends React.Component {
+export default class Button extends React.Component {
   render() {
     const { children, isLoading, ...buttonProps } = this.props;
-    const loadingClassName = isLoading ? 'loading' : '';
+    const className = [];
+    if (isLoading) {
+      className.push('loading');
+    }
 
     return (
       <button
-        className={`loading-button ${loadingClassName}`}
+        className={className.join(' ')}
         disabled={isLoading}
         {...buttonProps}
       >
