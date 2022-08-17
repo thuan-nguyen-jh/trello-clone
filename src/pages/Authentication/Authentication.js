@@ -1,12 +1,12 @@
+import { Redirect, withRouter } from 'react-router-dom';
 import React from 'react';
 import LoginForm from '../../components/Forms/LoginForm/LoginForm';
 import SignUpForm from '../../components/Forms/SignUpForm/SignUpForm';
 import AuthenticationFormHeader from '../../components/Headers/AuthenticationFormHeader/AuthenticationFormHeader';
-
-import './Authentication.css';
 import endpoint from '../../data/endpoint';
 import logo from '../../assets/images/logo.png';
-import { Redirect, withRouter } from 'react-router-dom';
+
+import './Authentication.css';
 
 class Authentication extends React.Component {
   render() {
