@@ -1,6 +1,9 @@
 /* Base */
 :root {
   --primary-color: cadetblue;
+  --border-color: #ccc;
+  --error-color: red;
+  --disabled-color: #ccc;
 }
 
 html {
