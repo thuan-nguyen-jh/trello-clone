@@ -1,4 +1,5 @@
 const Endpoint = {
+  home: '/',
   login: "/login",
   signUp: "/sign-up",
 };
