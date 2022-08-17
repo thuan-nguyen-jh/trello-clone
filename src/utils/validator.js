@@ -1,11 +1,12 @@
 function composeValidators(...validators) {
   return value => {
-    let errorText = undefined;
-    validators.every(validator => {
-      errorText = validator(value);
-      return errorText === undefined;
-    });
-    return errorText;
+    for (const validator of validators) {
+      const errorMessage = validator(value);
+      if (errorMessage !== undefined) {
+        return errorMessage;
+      }
+    }
+    return undefined;
   }
 }
 
@@ -26,6 +27,16 @@ function maxLength(max, errorText) {
 }
 
 function lengthInRange(min, max, errorText) {
+  if (min === undefined && max === undefined) {
+    return value => undefined;
+  }
+  if (min === undefined) {
+    return maxLength(max, errorText);
+  }
+  if (max === undefined) {
+    return minLength(min, errorText);
+  }
+
   return composeValidators(
     minLength(min, errorText),
     maxLength(max, errorText),
