@@ -15,14 +15,14 @@ const firebase = initializeApp(firebaseConfig);
 const auth = getAuth(firebase);
 const db = getFirestore(firebase);
 
-function formatMessage(message) {
+function formatErrorMessage(message) {
   message = message.replaceAll('-', ' ');
   return message.charAt(0).toUpperCase() + message.slice(1);
 }
 
 function throwParsedError(error) {
   const [key, message] = error.code.split('/');
-  throw new Error(formatMessage(message), { key });
+  throw new Error(formatErrorMessage(message), { key });
 }
 
 async function createNewAccount(email, password, name, position) {
@@ -39,8 +39,7 @@ async function createNewAccount(email, password, name, position) {
 
 async function login(email, password) {
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    console.log(userCredential.user);
+    return await signInWithEmailAndPassword(auth, email, password);
   } catch (error) {
     throwParsedError(error);
   }
