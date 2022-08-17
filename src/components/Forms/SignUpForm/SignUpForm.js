@@ -5,7 +5,7 @@ import React from "react";
 import TextField from '../../Fields/TextField/TextField';
 import SelectField from '../../Fields/SelectField/SelectField';
 import userPosition from '../../../data/userPosition';
-import LoadingButton from '../../Button/LoadingButton/LoadingButton';
+import Button from '../../Buttons/Button/Button';
 import composeValidators, { required, matchPattern, lengthInRange } from '../../../utils/validator';
 import { createNewAccount } from '../../../utils/firebase';
 
@@ -76,7 +76,7 @@ class SignUpForm extends React.Component {
               validator={required(positionRequiredErrorText)}
             />
 
-            <LoadingButton type="submit" isLoading={submitting}>Sign Up</LoadingButton>
+            <Button type="submit" isLoading={submitting}>Sign Up</Button>
             {submitError && <div className='error-text'>{submitError}</div>}
           </form>
         )}

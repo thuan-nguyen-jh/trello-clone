@@ -3,7 +3,7 @@ import { FORM_ERROR } from 'final-form'
 import { withRouter } from 'react-router-dom';
 import React from "react";
 import TextField from '../../Fields/TextField/TextField';
-import LoadingButton from '../../Button/LoadingButton/LoadingButton';
+import Button from '../../Buttons/Button/Button';
 import composeValidators, { required, matchPattern, lengthInRange } from '../../../utils/validator';
 import { login } from '../../../utils/firebase';
 
@@ -57,7 +57,7 @@ class LoginForm extends React.Component {
               }
             />
 
-            <LoadingButton type="submit" isLoading={submitting}>Login</LoadingButton>
+            <Button type="submit" isLoading={submitting}>Login</Button>
             {submitError && <div className='error-text'>{submitError}</div>}
           </form>
         )}
