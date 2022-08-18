@@ -1,0 +1,37 @@
+.authentication-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-color);
+}
+
+.authentication-panel {
+  flex-basis: 400px;
+  background-color: white;
+  padding: 30px;
+  
+  display: flex;
+  flex-direction: column;
+}
+
+.authentication-panel > .logo {
+  height: 100px;
+  align-self: center;
+}
+
+.authentication-panel > form {
+  margin-top: 10px;
+}
+
+.authentication-panel .navigate-message {
+  padding: 5px;
+  margin-top: 10px;
+  text-align: center;
+  font-style: italic;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+  border-radius: 5px;
+}

@@ -1,4 +1,11 @@
 /* Base */
+:root {
+  --primary-color: cadetblue;
+  --border-color: #ccc;
+  --error-color: red;
+  --disabled-color: #ccc;
+}
+
 html {
   box-sizing: border-box;
   font-size: 16px;
