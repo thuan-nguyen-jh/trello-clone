@@ -14,9 +14,10 @@ class Authentication extends React.Component {
     const { location, history, currentUser } = this.props;
     const isLoginPage = location.pathname === endpoint.login;
     const navigationMessage = history.location.state?.message;
+    const redirectLink = history.location.state?.from;
 
     if (currentUser !== null) {
-      return <Redirect to={endpoint.home} />;
+      return <Redirect to={ redirectLink || endpoint.home } />;
     }
 
     return (
