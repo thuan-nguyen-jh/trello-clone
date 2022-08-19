@@ -1,16 +1,18 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Authentication from './pages/Authentication/Authentication';
-import UserInfo from "./pages/UserInfo/UserInfo";
+import Home from "./pages/Home/Home";
+import Board from "./pages/Board/Board";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
-import endpoint from "./data/endpoint";
 import { onUserStateChanged } from "./utils/firebase";
+import endpoint from "./data/endpoint";
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: null,
+      user: undefined,
     };
   }
 
@@ -25,8 +27,8 @@ export default class App extends React.Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route exact path={endpoint.home}>
-            <UserInfo
+          <Route exact path={endpoint.home} currentUser={user}>
+            <Home
               currentUser={user}
             />
           </Route>
@@ -35,6 +37,11 @@ export default class App extends React.Component {
               currentUser={user}
             />
           </Route>
+          <PrivateRoute currentUser={user} path={endpoint.board}>
+            <Board
+              currentUser={user}
+            />
+          </PrivateRoute>
         </Switch>
       </BrowserRouter>
     );
