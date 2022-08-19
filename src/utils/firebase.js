@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getFirestore, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -30,9 +30,12 @@ function getParsedFirebaseError(error) {
 
 async function createNewAccount(email, password, name, position) {
   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-  await setDoc(doc(db, 'users', userCredential.user.uid), {
+  const userUid = userCredential.user.uid;
+  const boardRef = await createNewBoard(userUid, "");
+  await setDoc(doc(db, 'users', userUid), {
     name,
     position,
+    lastVisitBoard: boardRef.id,
   });
 }
 
@@ -46,6 +49,13 @@ async function logout() {
 
 function onUserStateChanged(callback) {
   onAuthStateChanged(auth, callback);
+}
+
+async function createNewBoard(userUid, name) {
+  return await addDoc(collection(db, "boards"), {
+    name,
+    members: [userUid],
+  });
 }
 
 export default firebase;
