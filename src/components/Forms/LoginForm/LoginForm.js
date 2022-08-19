@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import React from "react";
 import AuthForm from '../AuthForm/AuthForm';
 
-import { login } from '../../../utils/firebase';
+import { getParsedFirebaseError, login } from '../../../utils/firebase';
 import fields from '../../../data/fields';
 
 class LoginForm extends React.Component {
@@ -12,7 +12,8 @@ class LoginForm extends React.Component {
     try {
       await login(email, password);
     } catch (error) {
-      return { [FORM_ERROR]: error.message };
+      const parsedError = getParsedFirebaseError(error);
+      return { [FORM_ERROR]: parsedError.message };
     }
   }
 

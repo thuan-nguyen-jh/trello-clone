@@ -20,37 +20,28 @@ function formatErrorMessage(message) {
   return message.charAt(0).toUpperCase() + message.slice(1);
 }
 
-function throwParsedError(error) {
+function getParsedFirebaseError(error) {
   const [key, message] = error.code.split('/');
-  throw new Error(formatErrorMessage(message), { key });
+  return {
+    key,
+    message: formatErrorMessage(message),
+  };
 }
 
 async function createNewAccount(email, password, name, position) {
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    await setDoc(doc(db, 'users', userCredential.user.uid), {
-      name,
-      position,
-    });
-  } catch (error) {
-    throwParsedError(error);
-  }
+  const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  await setDoc(doc(db, 'users', userCredential.user.uid), {
+    name,
+    position,
+  });
 }
 
 async function login(email, password) {
-  try {
-    return await signInWithEmailAndPassword(auth, email, password);
-  } catch (error) {
-    throwParsedError(error);
-  }
+  return await signInWithEmailAndPassword(auth, email, password);
 }
 
 async function logout() {
-  try {
-    await signOut(auth);
-  } catch (error) {
-    throwParsedError(error);
-  }
+  await signOut(auth);
 }
 
 function onUserStateChanged(callback) {
@@ -58,4 +49,4 @@ function onUserStateChanged(callback) {
 }
 
 export default firebase;
-export { auth, db, createNewAccount, login, logout, onUserStateChanged };
+export { auth, db, getParsedFirebaseError, createNewAccount, login, logout, onUserStateChanged };

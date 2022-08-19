@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import React from "react";
 import AuthForm from '../AuthForm/AuthForm';
 
-import { createNewAccount } from '../../../utils/firebase';
+import { createNewAccount, getParsedFirebaseError } from '../../../utils/firebase';
 import fields from '../../../data/fields';
 
 class SignUpForm extends React.Component {
@@ -12,7 +12,8 @@ class SignUpForm extends React.Component {
     try {
       await createNewAccount(email, password, name, position);
     } catch (error) {
-      return { [FORM_ERROR]: error.message };
+      const parsedError = getParsedFirebaseError(error);
+      return { [FORM_ERROR]: parsedError.message };
     }
   }
 
