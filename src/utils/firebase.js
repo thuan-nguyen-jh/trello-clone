@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { addDoc, collection, doc, getFirestore, setDoc } from "firebase/firestore";
+import { addDoc, arrayUnion, collection, doc, getDoc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -35,8 +35,9 @@ async function createNewAccount(email, password, name, position) {
   await setDoc(doc(db, 'users', userUid), {
     name,
     position,
-    lastVisitBoard: boardRef.id,
+    board: boardRef,
   });
+  return userCredential;
 }
 
 async function login(email, password) {
@@ -51,12 +52,40 @@ function onUserStateChanged(callback) {
   onAuthStateChanged(auth, callback);
 }
 
+function getUserData(userUid) {
+  return getDoc(doc(db, 'users', userUid));
+}
+
 async function createNewBoard(userUid, name) {
   return await addDoc(collection(db, "boards"), {
     name,
-    members: [userUid],
+    author: userUid,
+    columns: [],
   });
 }
 
+async function getUserBoard(userUid) {
+  const userSnapshot = await getUserData(userUid);
+  const userData = userSnapshot.data();
+  return await getDoc(userData.board);
+}
+
+async function createNewColumn(boardRef, name) {
+  const columnRef = await addDoc(collection(db, "columns"), {
+    name,
+  });
+  await updateDoc(boardRef, {
+    columns: arrayUnion(columnRef),
+  });
+  return columnRef;
+}
+
+function editColumnName(columnRef, name) {
+  return updateDoc(columnRef, {
+    name,
+  });
+}
+
+window.logout = logout;
 export default firebase;
-export { auth, db, getParsedFirebaseError, createNewAccount, login, logout, onUserStateChanged };
+export { auth, db, getDoc, getParsedFirebaseError, createNewAccount, login, logout, onUserStateChanged, getUserData, getUserBoard, createNewColumn, editColumnName };
