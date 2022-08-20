@@ -1,0 +1,12 @@
+.editable-header {
+  width: 100%;
+  resize: none;
+  overflow: hidden;
+  background-color: transparent;
+  border: none;
+}
+
+.editable-header:focus {
+  background-color: white;
+  outline: 2px solid var(--primary-color);
+}
