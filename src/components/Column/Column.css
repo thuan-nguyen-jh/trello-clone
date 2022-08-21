@@ -4,13 +4,13 @@
   max-height: 100%;
 }
 
-.column .editable-header {
-  font-weight: bold;
-}
-
 .column .column-header {
   flex: 0 0 auto;
   margin: 10px;
+}
+
+.column .column-header .editable-header {
+  font-weight: bold;
 }
 
 .column .column-content {
@@ -19,11 +19,11 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  margin-bottom: 10px;
   gap: 10px;
 }
 
 .column .column-content .card {
   flex: 0 0 auto;
-  background-color: white;
   margin: 0px 10px;
 }
