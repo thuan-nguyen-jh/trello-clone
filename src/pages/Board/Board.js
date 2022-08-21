@@ -56,11 +56,12 @@ export default class Board extends React.Component {
             />
           ))}
           <div className="column">
-            <CreateComponentButton
-              wrapperClassName="column-header"
-              onCreate={this.handleCreateColumn}
-              placeholder="+ Add a new column"
-            />
+            <div className="column-header">
+              <CreateComponentButton
+                onCreate={this.handleCreateColumn}
+                placeholder="+ Add a new column"
+              />
+            </div>
           </div>
         </div>
       </div>
