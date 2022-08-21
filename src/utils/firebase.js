@@ -40,12 +40,12 @@ async function createNewAccount(email, password, name, position) {
   return userCredential;
 }
 
-async function login(email, password) {
-  return await signInWithEmailAndPassword(auth, email, password);
+function login(email, password) {
+  return signInWithEmailAndPassword(auth, email, password);
 }
 
-async function logout() {
-  await signOut(auth);
+function logout() {
+  return signOut(auth);
 }
 
 function onUserStateChanged(callback) {
@@ -56,8 +56,8 @@ function getUserData(userUid) {
   return getDoc(doc(db, 'users', userUid));
 }
 
-async function createNewBoard(userUid, name) {
-  return await addDoc(collection(db, "boards"), {
+function createNewBoard(userUid, name) {
+  return addDoc(collection(db, "boards"), {
     name,
     author: userUid,
     columns: [],
@@ -86,6 +86,5 @@ function editColumnName(columnRef, name) {
   });
 }
 
-window.logout = logout;
 export default firebase;
 export { auth, db, getDoc, getParsedFirebaseError, createNewAccount, login, logout, onUserStateChanged, getUserData, getUserBoard, createNewColumn, editColumnName };
