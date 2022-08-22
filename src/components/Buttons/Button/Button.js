@@ -5,17 +5,17 @@ import './Button.css';
 export default class Button extends React.Component {
   render() {
     const { children, isLoading, ...buttonProps } = this.props;
-    const className = ['button'];
+    const classesName = ['button'];
     if (isLoading) {
-      className.push('loading');
+      classesName.push('loading');
     }
 
     return (
       <button
-        className={className.join(' ')}
+        className={classesName.join(' ')}
         disabled={isLoading}
         {...buttonProps}
-      >
+      >   
         {children}
       </button>
     );
