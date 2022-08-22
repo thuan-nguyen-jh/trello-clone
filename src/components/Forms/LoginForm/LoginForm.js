@@ -9,9 +9,11 @@ import fields from '../../../data/fields';
 
 class LoginForm extends React.Component {
   async handleSubmit(values) {
+    const { onValidated } = this.props;
     const { email, password } = values;
     try {
       await login(email, password);
+      onValidated();
     } catch (error) {
       const parsedError = getParsedFirebaseError(error);
       return { [FORM_ERROR]: parsedError.message };

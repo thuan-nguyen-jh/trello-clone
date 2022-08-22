@@ -10,8 +10,21 @@ import logo from '../../assets/images/logo.png';
 import './Authentication.css';
 
 class Authentication extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isValidated: false,
+    };
+    this.handleValidated = this.handleValidated.bind(this);
+  }
+
+  handleValidated() {
+    this.setState({ isValidated: true });
+  }
+
   render() {
     const { location, history, isLoaded, currentUser } = this.props;
+    const { isValidated } = this.state;
     const isLoginPage = location.pathname === endpoint.login;
     const navigationMessage = history.location.state?.message;
     const redirectLink = history.location.state?.from;
@@ -20,7 +33,7 @@ class Authentication extends React.Component {
       return <div>Loading...</div>;
     }
 
-    if (currentUser) {
+    if (currentUser && isValidated) {
       return <Redirect to={ redirectLink || endpoint.home } />;
     }
 
@@ -38,8 +51,8 @@ class Authentication extends React.Component {
             links={Object.values(authLinks)}
           />
           {isLoginPage
-            ? <LoginForm submitButtonText={authLinks.login.header} />
-            : <SignUpForm submitButtonText={authLinks.signUp.header} />
+            ? <LoginForm submitButtonText={authLinks.login.header} onValidated={this.handleValidated} />
+            : <SignUpForm submitButtonText={authLinks.signUp.header} onValidated={this.handleValidated} />
           }
         </div>
       </div>

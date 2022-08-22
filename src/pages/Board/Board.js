@@ -18,10 +18,6 @@ export default class Board extends React.Component {
   }
 
   componentDidMount() {
-    this.loadBoard();
-  }
-
-  loadBoard() {
     const { currentUser } = this.props;
     getUserBoard(currentUser.uid).then(snapshot => {
       const boardData = snapshot.data();
@@ -29,11 +25,8 @@ export default class Board extends React.Component {
         boardRef: snapshot.ref,
         columns: boardData.columns,
       });
-    }).catch(error => {
-      setTimeout(this.loadBoard.bind(this), 500);
-    });
+    })
   }
-
 
   async handleCreateColumn(name) {
     if (name === "") {
