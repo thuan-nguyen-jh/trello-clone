@@ -41,7 +41,7 @@ export default class Board extends React.Component {
 
   render() {
     const { boardRef, columns } = this.state;
-    if (boardRef === undefined) {
+    if (!boardRef) {
       return <div>Loading...</div>;
     }
 
