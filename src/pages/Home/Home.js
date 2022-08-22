@@ -4,12 +4,12 @@ import endpoint from "../../data/endpoint";
 
 export default class Home extends React.Component {
   render() {
-    const { currentUser } = this.props;
-    if (currentUser === undefined) {
+    const { isLoaded, currentUser } = this.props;
+    if (!isLoaded) {
       return <div>Loading...</div>;
     }
 
-    if (currentUser === null) {
+    if (!currentUser) {
       return <Redirect to={endpoint.login} />;
     }
 

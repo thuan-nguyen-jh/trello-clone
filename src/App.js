@@ -12,33 +12,40 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoaded: false,
       user: undefined,
     };
   }
 
   componentDidMount() {
     onUserStateChanged(user => {
-      this.setState({ user });
+      this.setState({ 
+        isLoaded: true,
+        user, 
+      });
     })
   }
 
   render() {
-    const { user } = this.state;
+    const { isLoaded, user } = this.state;
     return (
       <BrowserRouter>
         <Switch>
           <Route exact path={endpoint.home} currentUser={user}>
             <Home
+              isLoaded={isLoaded}
               currentUser={user}
             />
           </Route>
           <Route path={[endpoint.login, endpoint.signUp]}>
             <Authentication
+              isLoaded={isLoaded}
               currentUser={user}
             />
           </Route>
-          <PrivateRoute currentUser={user} path={endpoint.board}>
+          <PrivateRoute isLoaded={isLoaded} currentUser={user} path={endpoint.board}>
             <Board
+              isLoaded={isLoaded}
               currentUser={user}
             />
           </PrivateRoute>

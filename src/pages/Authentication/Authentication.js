@@ -11,12 +11,16 @@ import './Authentication.css';
 
 class Authentication extends React.Component {
   render() {
-    const { location, history, currentUser } = this.props;
+    const { location, history, isLoaded, currentUser } = this.props;
     const isLoginPage = location.pathname === endpoint.login;
     const navigationMessage = history.location.state?.message;
     const redirectLink = history.location.state?.from;
 
-    if (currentUser !== null) {
+    if (!isLoaded) {
+      return <div>Loading...</div>;
+    }
+
+    if (currentUser) {
       return <Redirect to={ redirectLink || endpoint.home } />;
     }
 

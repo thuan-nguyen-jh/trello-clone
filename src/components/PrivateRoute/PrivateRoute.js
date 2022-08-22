@@ -4,12 +4,12 @@ import endpoint from "../../data/endpoint";
 
 class PrivateRoute extends React.Component {
   render() {
-    const { location, currentUser, children, ...rest } = this.props;
+    const { location, isLoaded, currentUser, children, ...rest } = this.props;
     return (
       <Route {...rest}>
-        {currentUser === undefined
+        {!isLoaded
           ? <div>Loading...</div>
-          : currentUser === null
+          : !currentUser
             ? <Redirect to={{
                 pathname: endpoint.login,
                 state: {
