@@ -2,7 +2,7 @@ import React from "react";
 import CreateComponentButton from "../../components/Buttons/CreateComponentButton/CreateComponentButton";
 import Column from "../../components/Column/Column";
 import Topbar from "../../components/Topbar/Topbar";
-import { createNewColumn, getUserBoard } from "../../utils/firebase";
+import { createNewColumn, getUserBoard } from "../../utils/db";
 
 import "./Board.css";
 

@@ -5,7 +5,7 @@ import Home from "./pages/Home/Home";
 import Board from "./pages/Board/Board";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
-import { onUserStateChanged } from "./utils/firebase";
+import { onUserStateChanged } from "./utils/auth"
 import endpoint from "./data/endpoint";
 
 export default class App extends React.Component {

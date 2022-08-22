@@ -3,7 +3,8 @@ import { withRouter } from 'react-router-dom';
 import React from "react";
 import AuthForm from '../AuthForm/AuthForm';
 
-import { getParsedFirebaseError, login } from '../../../utils/firebase';
+import { getParsedFirebaseError } from '../../../utils/firebase';
+import { login } from '../../../utils/auth';
 import fields from '../../../data/fields';
 
 class LoginForm extends React.Component {

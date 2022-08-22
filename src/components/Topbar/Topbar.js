@@ -1,5 +1,5 @@
 import React from "react";
-import { logout } from "../../utils/firebase";
+import { logout } from "../../utils/auth";
 
 import './Topbar.css';
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import EditableHeader from '../EditableHeader/EditableHeader';
-import { editColumnName, getDoc } from '../../utils/firebase';
+import { editColumnName, getDoc } from '../../utils/db';
 
 import './Column.css';
 

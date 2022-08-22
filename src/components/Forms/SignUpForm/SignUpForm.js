@@ -3,7 +3,8 @@ import { withRouter } from 'react-router-dom';
 import React from "react";
 import AuthForm from '../AuthForm/AuthForm';
 
-import { createNewAccount, getParsedFirebaseError } from '../../../utils/firebase';
+import { getParsedFirebaseError } from '../../../utils/firebase';
+import { createNewAccount } from '../../../utils/auth';
 import fields from '../../../data/fields';
 
 class SignUpForm extends React.Component {
