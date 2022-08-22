@@ -3,16 +3,20 @@ import { withRouter } from 'react-router-dom';
 import React from "react";
 import AuthForm from '../AuthForm/AuthForm';
 
-import { createNewAccount } from '../../../utils/firebase';
+import { getParsedFirebaseError } from '../../../utils/firebase';
+import { createNewAccount } from '../../../utils/auth';
 import fields from '../../../data/fields';
 
 class SignUpForm extends React.Component {
   async handleSubmit(values) {
+    const { onValidated } = this.props;
     const { email, password, name, position } = values;
     try {
       await createNewAccount(email, password, name, position);
+      onValidated();
     } catch (error) {
-      return { [FORM_ERROR]: error.message };
+      const parsedError = getParsedFirebaseError(error);
+      return { [FORM_ERROR]: parsedError.message };
     }
   }
 

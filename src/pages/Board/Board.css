@@ -1,0 +1,26 @@
+.board-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.top-bar {
+  flex: 0 0 auto;
+}
+
+.columns-container {
+  flex: 1 1 auto;
+
+  display: flex;
+  align-items: flex-start;
+  overflow-x: auto;
+  gap: 10px;
+  margin: 10px;
+}
+
+.columns-container .column {
+  flex: 0 0 auto;
+  width: 300px;
+
+  background-color: var(--secondary-color);
+}

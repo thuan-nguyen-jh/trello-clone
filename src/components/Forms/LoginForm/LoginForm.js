@@ -3,16 +3,20 @@ import { withRouter } from 'react-router-dom';
 import React from "react";
 import AuthForm from '../AuthForm/AuthForm';
 
-import { login } from '../../../utils/firebase';
+import { getParsedFirebaseError } from '../../../utils/firebase';
+import { login } from '../../../utils/auth';
 import fields from '../../../data/fields';
 
 class LoginForm extends React.Component {
   async handleSubmit(values) {
+    const { onValidated } = this.props;
     const { email, password } = values;
     try {
       await login(email, password);
+      onValidated();
     } catch (error) {
-      return { [FORM_ERROR]: error.message };
+      const parsedError = getParsedFirebaseError(error);
+      return { [FORM_ERROR]: parsedError.message };
     }
   }
 
