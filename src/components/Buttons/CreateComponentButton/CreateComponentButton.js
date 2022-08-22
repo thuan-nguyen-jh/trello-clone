@@ -2,7 +2,7 @@ import EditableHeader from "../../EditableHeader/EditableHeader";
 
 export default function CreateComponentButton(props) {
   const { onCreate, placeholder } = props;
-  async function handleSaveToCreateDocument(name) {
+  async function saveToCreateDocument(name) {
     await onCreate(name);
   }
 
@@ -10,7 +10,7 @@ export default function CreateComponentButton(props) {
     <EditableHeader
       title=""
       placeholder={placeholder}
-      onSave={handleSaveToCreateDocument}
+      onSave={saveToCreateDocument}
     />
   );
 }
