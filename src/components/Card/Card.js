@@ -48,8 +48,6 @@ class Card extends React.Component {
   render() {
     const { title, isAtFirstColumn, isAtLastColumn } = this.props;
     const { isMoving } = this.state;
-    const isDisabledPrevButton = isAtFirstColumn || isMoving;
-    const isDisabledNextButton = isAtLastColumn || isMoving;
 
     return (
       <div
@@ -63,12 +61,14 @@ class Card extends React.Component {
           <button
             className="card__nav__prev"
             onClick={this.moveCard("left")}
-            disabled={isDisabledPrevButton}
+            disabled={isMoving}
+            hidden={isAtFirstColumn}
           />
           <button
             className="card__nav__next"
             onClick={this.moveCard("right")}
-            disabled={isDisabledNextButton}
+            disabled={isMoving}
+            hidden={isAtLastColumn}
           />
         </div>
       </div>
