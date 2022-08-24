@@ -8,7 +8,7 @@ import endpoint from "../../data/endpoint";
 import './CardDetail.css';
 
 function CardDetail(props) {
-  const { match, location, history, onCardTitleEdited, onCardContentEdited, getCardIndex } = props;
+  const { match, location, history, onUpdateCardTitle, onUpdateCardContent, getCardIndex } = props;
   const [cardId, setCardId] = useState(null);
   const [cardTitle, setCardTitle] = useState("");
   const [cardContent, setCardContent] = useState("");
@@ -53,14 +53,14 @@ function CardDetail(props) {
 
     await editCardTitle(cardId, newTitle);
     setCardTitle(newTitle);
-    onCardTitleEdited(cardIndex, columnIndex, newTitle);
+    onUpdateCardTitle(cardIndex, columnIndex, newTitle);
     return true;
   }
 
   async function saveCardContent(newContent) {
     await editCardContent(cardId, newContent);
     setCardContent(newContent);
-    onCardContentEdited(cardIndex, columnIndex, newContent);
+    onUpdateCardContent(cardIndex, columnIndex, newContent);
     return true;
   }
 

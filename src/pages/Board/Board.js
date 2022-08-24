@@ -178,8 +178,8 @@ class Board extends React.Component {
         </div>
         <Route path={endpoint.cardDetail}>
           <CardDetail
-            onCardTitleEdited={this.updateCardTitleInState}
-            onCardContentEdited={this.updateCardContentInState}
+            onUpdateCardTitle={this.updateCardTitleInState}
+            onUpdateCardContent={this.updateCardContentInState}
             getCardIndex={this.getCardIndex}
           />
         </Route>
