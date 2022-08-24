@@ -27,8 +27,8 @@ export default function Column(props) {
     return true;
   }
 
-  function createCard(title) {
-    return onCreateCard(columnIndex, title);
+  function createCard(cardTitle) {
+    return onCreateCard(columnIndex, cardTitle);
   }
 
   function moveCardToLeft(cardIndex) {
