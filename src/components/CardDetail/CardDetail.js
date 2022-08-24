@@ -40,7 +40,11 @@ function CardDetail(props) {
         closeModal();
       });
     }
-  }, [location.state, match.params.cardId, getCardIndex, closeModal]);
+
+    return () => {
+      location.state = null;
+    }
+  }, [location, match.params.cardId, getCardIndex, closeModal]);
 
   async function saveCardTitle(newTitle) {
     if (!newTitle) {
