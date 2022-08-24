@@ -71,11 +71,11 @@ class Board extends React.Component {
   }
 
   async createCard(index, title) {
-    if (!title) {
+    const columnRef = this.state.columns[index]?.ref;
+    if (!columnRef || !title) {
       return;
     }
 
-    const columnRef = this.state.columns[index]?.ref;
     const cardRef = await createNewCard(columnRef, title);
     this.addNewCardToColumnInState({
       ref: cardRef,
@@ -89,7 +89,7 @@ class Board extends React.Component {
   addNewCardToColumnInState(card, columnIndex) {
     this.setState(prevState => {
       const { columns } = prevState;
-      columns[columnIndex]?.cards.push(card);
+      columns[columnIndex].cards.push(card);
       return {
         columns,
       };
@@ -100,6 +100,10 @@ class Board extends React.Component {
     const { columns } = this.state;
     const cardRef = columns[columnIndex]?.cards[cardIndex]?.ref;
     const newColumnRef = columns[newColumnIndex]?.ref;
+    if (!cardRef || !newColumnRef) {
+      return;
+    }
+
     await moveCardToNewColumn(cardRef, newColumnRef);
     this.moveCardToNewColumnInState(cardIndex, columnIndex, newColumnIndex);
   }
@@ -107,9 +111,9 @@ class Board extends React.Component {
   moveCardToNewColumnInState(cardIndex, columnIndex, newColumnIndex) {
     this.setState(prevState => {
       const { columns } = prevState;
-      const card = columns[columnIndex]?.cards[cardIndex];
-      columns[columnIndex]?.cards.splice(cardIndex, 1);
-      columns[newColumnIndex]?.cards.push(card);
+      const card = columns[columnIndex].cards[cardIndex];
+      columns[columnIndex].cards.splice(cardIndex, 1);
+      columns[newColumnIndex].cards.push(card);
       return {
         columns,
       };
@@ -137,7 +141,11 @@ class Board extends React.Component {
   getCardIndex(columnRef, cardRef) {
     const { columns } = this.state;
     const columnIndex = columns.findIndex(column => column.ref.id === columnRef.id);
-    const cardIndex = columns[columnIndex]?.cards.findIndex(card => card.ref.id === cardRef.id);
+    const cardIndex = columns[columnIndex]?.cards.findIndex(card => card.ref.id === cardRef.id) ?? -1;
+    if (cardIndex === -1) {
+      return null;
+    }
+
     return {
       columnIndex,
       cardIndex,
@@ -158,7 +166,7 @@ class Board extends React.Component {
             const { ref, cards } = column;
             return (
               <Column
-                key={ref._key.path.segments.at(-1)}
+                key={ref.id}
                 columnRef={ref}
                 index={index}
                 columnCount={columns.length}
