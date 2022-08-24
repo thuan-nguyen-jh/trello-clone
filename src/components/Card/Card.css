@@ -1,0 +1,41 @@
+.card {
+  padding: 10px;
+  background-color: white;
+}
+
+.card__title {
+  word-wrap: break-word;
+}
+
+.card__nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.card__nav__prev,
+.card__nav__next {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  border: none;
+  background-color: white;
+  background-position: center;
+  background-size: contain;
+}
+
+.card__nav__prev:disabled,
+.card__nav__next:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.card__nav__next {
+  background-image: url('../../assets/icons/arrow-right-short.svg');
+}
+
+.card__nav__prev {
+  background-image: url('../../assets/icons/arrow-left-short.svg');
+} 

@@ -1,4 +1,4 @@
-import { addDoc, arrayUnion, collection, getDoc, updateDoc } from "firebase/firestore";
+import { addDoc, arrayUnion, collection, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { db } from "./firebase";
 import { getUserData } from "./auth";
 
@@ -32,4 +32,39 @@ function editColumnName(columnRef, name) {
   });
 }
 
-export { getDoc, createNewBoard, getUserBoard, createNewColumn, editColumnName };
+function createNewCard(columnRef, title, content = "") {
+  return addDoc(collection(db, "cards"), {
+    title,
+    content,
+    column: columnRef,
+  });
+}
+
+function getCards(columnRef) {
+  const q = query(collection(db, "cards"), where("column", "==", columnRef));
+  return getDocs(q);
+}
+
+function getCard(cardId) {
+  return getDoc(doc(db, "cards", cardId));
+}
+
+function editCardTitle(cardId, title) {
+  return updateDoc(doc(db, "cards", cardId), {
+    title,
+  });
+}
+
+function editCardContent(cardId, content) {
+  return updateDoc(doc(db, "cards", cardId), {
+    content,
+  });
+}
+
+function moveCardToNewColumn(cardRef, newColumnRef) {
+  return updateDoc(cardRef, {
+    column: newColumnRef,
+  });
+}
+
+export { getDoc, updateDoc, createNewBoard, getUserBoard, createNewColumn, editColumnName, createNewCard, getCards, getCard, editCardTitle, editCardContent, moveCardToNewColumn };

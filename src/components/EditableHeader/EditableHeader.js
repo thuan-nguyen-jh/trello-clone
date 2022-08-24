@@ -1,14 +1,10 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
+import useAutoHeight from '../../hooks/useAutoHeight';
 import './EditableHeader.css';
 
 export default function EditableHeader(props) {
   const [title, setTitle] = useState("");
-  const textareaRef = useRef(null);
-
-  useLayoutEffect(() => {    
-    textareaRef.current.style.height = "inherit"; // reset height to shrink on delete
-    textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-  }, [title]);
+  const textareaRef = useAutoHeight(title);
 
   useEffect(() => {
     setTitle(props.title);
