@@ -33,10 +33,10 @@ class Board extends React.Component {
     const { currentUser } = this.props;
     const boardSnapshot = await getUserBoard(currentUser.uid);
     const broad = boardSnapshot.data();
-    const columns = broad.columns.map((columnRef) => this.getColumnData(columnRef));
+    const getColumnDataPromises = broad.columns.map((columnRef) => this.getColumnData(columnRef));
     return {
       boardRef: boardSnapshot.ref,
-      columns: await Promise.all(columns),
+      columns: await Promise.all(getColumnDataPromises),
     };
   }
 
