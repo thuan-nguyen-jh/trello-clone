@@ -28,7 +28,8 @@
 
 .card__nav__prev:disabled,
 .card__nav__next:disabled {
-  display: none;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .card__nav__next {
