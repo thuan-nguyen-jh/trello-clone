@@ -73,7 +73,7 @@ function CardDetail(props) {
         className="card-detail"
         onClick={e => e.stopPropagation()}
       >
-        <div
+        <button
           className="close-button"
           onClick={closeModal}
         />
