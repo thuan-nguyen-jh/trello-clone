@@ -1,5 +1,6 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
+import { withUser } from "../../contexts/UserContext/withUser";
 import endpoint from "../../data/endpoint";
 
 class PrivateRoute extends React.Component {
@@ -24,4 +25,4 @@ class PrivateRoute extends React.Component {
   }
 }
 
-export default PrivateRoute;
+export default withUser(PrivateRoute);

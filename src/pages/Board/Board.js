@@ -5,6 +5,7 @@ import CardDetail from "../../components/CardDetail/CardDetail";
 import Column from "../../components/Column/Column";
 import Topbar from "../../components/Topbar/Topbar";
 import { createNewCard, createNewColumn, getCards, getUserBoard, moveCardToNewColumn } from "../../utils/db";
+import { withUser } from "../../contexts/UserContext/withUser";
 import endpoint from "../../data/endpoint";
 
 import "./Board.css";
@@ -196,4 +197,4 @@ class Board extends React.Component {
   }
 }
 
-export default withRouter(Board);
+export default withRouter(withUser(Board));

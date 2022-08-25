@@ -3,11 +3,13 @@ import React from 'react';
 import LoginForm from '../../components/Forms/LoginForm/LoginForm';
 import SignUpForm from '../../components/Forms/SignUpForm/SignUpForm';
 import AuthenticationFormHeader from '../../components/Headers/AuthenticationFormHeader/AuthenticationFormHeader';
+import { withUser } from '../../contexts/UserContext/withUser';
 import authLinks from '../../data/authLinks';
 import endpoint from '../../data/endpoint';
 import logo from '../../assets/images/logo.png';
 
 import './Authentication.css';
+
 
 class Authentication extends React.Component {
   constructor(props) {
@@ -60,4 +62,4 @@ class Authentication extends React.Component {
   }
 }
 
-export default withRouter(Authentication);
+export default withRouter(withUser(Authentication));

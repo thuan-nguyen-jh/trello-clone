@@ -4,6 +4,7 @@ import Authentication from './pages/Authentication/Authentication';
 import Home from "./pages/Home/Home";
 import Board from "./pages/Board/Board";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import UserContext from "./contexts/UserContext/UserContext";
 
 import { onUserStateChanged } from "./utils/auth"
 import endpoint from "./data/endpoint";
@@ -13,44 +14,31 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       isLoaded: false,
-      user: undefined,
+      currentUser: undefined,
     };
   }
 
   componentDidMount() {
     onUserStateChanged(user => {
-      this.setState({ 
+      this.setState({
         isLoaded: true,
-        user, 
+        currentUser: user,
       });
     })
   }
 
   render() {
-    const { isLoaded, user } = this.state;
+    const { isLoaded, currentUser } = this.state;
     return (
-      <BrowserRouter>
-        <Switch>
-          <Route exact path={endpoint.home} currentUser={user}>
-            <Home
-              isLoaded={isLoaded}
-              currentUser={user}
-            />
-          </Route>
-          <Route path={[endpoint.login, endpoint.signUp]}>
-            <Authentication
-              isLoaded={isLoaded}
-              currentUser={user}
-            />
-          </Route>
-          <PrivateRoute isLoaded={isLoaded} currentUser={user} path={endpoint.board}>
-            <Board
-              isLoaded={isLoaded}
-              currentUser={user}
-            />
-          </PrivateRoute>
-        </Switch>
-      </BrowserRouter>
+      <UserContext.Provider value={{ isLoaded, currentUser }}>
+        <BrowserRouter>
+          <Switch>
+            <Route exact path={endpoint.home}><Home/></Route>
+            <Route path={[endpoint.login, endpoint.signUp]}><Authentication/></Route>
+            <PrivateRoute path={endpoint.board}><Board/></PrivateRoute>
+          </Switch>
+        </BrowserRouter>
+      </UserContext.Provider>
     );
   }
 }
