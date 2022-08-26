@@ -26,6 +26,10 @@ async function createNewColumn(boardRef, name) {
   return columnRef;
 }
 
+function getColumn(columnRef) {
+  return getDoc(columnRef);
+}
+
 function editColumnName(columnRef, name) {
   return updateDoc(columnRef, {
     name,
@@ -67,4 +71,4 @@ function moveCardToNewColumn(cardRef, newColumnRef) {
   });
 }
 
-export { getDoc, updateDoc, createNewBoard, getUserBoard, createNewColumn, editColumnName, createNewCard, getCards, getCard, editCardTitle, editCardContent, moveCardToNewColumn };
+export { createNewBoard, getUserBoard, createNewColumn, getColumn, editColumnName, createNewCard, getCards, getCard, editCardTitle, editCardContent, moveCardToNewColumn };
