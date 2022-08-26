@@ -1,76 +1,64 @@
-import { useEffect, useState } from 'react';
 import EditableHeader from '../EditableHeader/EditableHeader';
 import CreateComponentButton from '../Buttons/CreateComponentButton/CreateComponentButton';
 import Card from '../Card/Card';
-import { editColumnName, getDoc } from '../../utils/db';
+import { createNewCard, editColumnName } from '../../utils/db';
+import withBoard from '../../contexts/BoardContext/withBoard';
 
 import './Column.css';
 
-export default function Column(props) {
-  const { columnRef, index: columnIndex, columnCount, cards, onCreateCard, onMoveCard } = props;
-  const [title, setTitle] = useState("");
-
-  useEffect(() => {
-    getDoc(columnRef).then(snapshot => {
-      const columnData = snapshot.data();
-      setTitle(columnData.name);
-    });
-  }, [columnRef]);
+function Column(props) {
+  const { index: columnIndex, columns, renameColumnInContext, addNewCardToColumnInContext } = props;
+  const column = columns[columnIndex];
+  if (!column) {
+    return null;
+  }
 
   async function handleSaveTitle(newTitle) {
-    if (newTitle === "") {
+    if (!newTitle) {
       return false;
     }
 
-    await editColumnName(columnRef, newTitle);
-    setTitle(newTitle);
+    await editColumnName(column.ref, newTitle);
+    renameColumnInContext(columnIndex, newTitle);
     return true;
   }
 
-  function createCard(cardTitle) {
-    return onCreateCard(columnIndex, cardTitle);
-  }
+  async function handleCreateCard(cardTitle) {
+    if (!cardTitle) {
+      return;
+    }
 
-  function moveCardToLeft(cardIndex) {
-    return onMoveCard(cardIndex, columnIndex, columnIndex - 1);
-  }
-
-  function moveCardToRight(cardIndex) {
-    return onMoveCard(cardIndex, columnIndex, columnIndex + 1);
+    const cardRef = await createNewCard(column.ref, cardTitle);
+    addNewCardToColumnInContext({
+      ref: cardRef,
+      title: cardTitle,
+      content: "",
+    }, columnIndex);
   }
 
   return (
     <div className='column'>
       <div className='column-header'>
         <EditableHeader
-          title={title}
+          title={column.name}
           onSave={handleSaveTitle}
         />
       </div>
       <div className='column-content'>
         {
-          cards.map((card, cardIndex) => {
-            const { ref, data } = card;
-            const isAtFirstColumn = columnIndex === 0;
-            const isAtLastColumn = columnIndex === columnCount - 1;
+          column.cards.map((card, cardIndex) => {
+            const { ref } = card;
             return (
               <Card
                 key={ref.id}
-                cardRef={ref}
-                cardIndex={cardIndex}
                 columnIndex={columnIndex}
-                title={data.title}
-                content={data.content}
-                onMoveCardToLeft={moveCardToLeft}
-                onMoveCardToRight={moveCardToRight}
-                isAtFirstColumn={isAtFirstColumn}
-                isAtLastColumn={isAtLastColumn}
+                cardIndex={cardIndex}
               />);
           })
         }
         <div className='card'>
           <CreateComponentButton
-            onCreate={createCard}
+            onCreate={handleCreateCard}
             placeholder='+ Add a card'
           />
         </div>
@@ -78,3 +66,5 @@ export default function Column(props) {
     </div>
   );
 }
+
+export default withBoard(Column);

@@ -1,8 +1,9 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
+import { withUser } from "../../contexts/UserContext/withUser";
 import endpoint from "../../data/endpoint";
 
-export default class Home extends React.Component {
+class Home extends React.Component {
   render() {
     const { isLoaded, currentUser } = this.props;
     if (!isLoaded) {
@@ -16,3 +17,5 @@ export default class Home extends React.Component {
     return <Redirect to={endpoint.board} />;
   }
 }
+
+export default withUser(Home);

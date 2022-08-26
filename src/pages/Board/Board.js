@@ -4,7 +4,9 @@ import CreateComponentButton from "../../components/Buttons/CreateComponentButto
 import CardDetail from "../../components/CardDetail/CardDetail";
 import Column from "../../components/Column/Column";
 import Topbar from "../../components/Topbar/Topbar";
-import { createNewCard, createNewColumn, getCards, getUserBoard, moveCardToNewColumn } from "../../utils/db";
+import BoardContext from "../../contexts/BoardContext/BoardContext";
+import { withUser } from "../../contexts/UserContext/withUser";
+import { createNewColumn, getCards, getColumn, getUserBoard } from "../../utils/db";
 import endpoint from "../../data/endpoint";
 
 import "./Board.css";
@@ -12,17 +14,28 @@ import "./Board.css";
 class Board extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      boardRef: undefined,
-      columns: [],
-    };
-
     this.createColumn = this.createColumn.bind(this);
-    this.createCard = this.createCard.bind(this);
-    this.moveCard = this.moveCard.bind(this);
+    this.renameColumnInState = this.renameColumnInState.bind(this);
+    this.addNewCardToColumnInState = this.addNewCardToColumnInState.bind(this);
+    this.moveCardToNewColumnInState = this.moveCardToNewColumnInState.bind(this);
     this.updateCardTitleInState = this.updateCardTitleInState.bind(this);
     this.updateCardContentInState = this.updateCardContentInState.bind(this);
     this.getCardIndex = this.getCardIndex.bind(this);
+    this.setSelectedCard = this.setSelectedCard.bind(this);
+
+    this.state = {
+      boardRef: undefined,
+      columns: [],
+      selectedCard: undefined,
+
+      renameColumnInContext: this.renameColumnInState,
+      addNewCardToColumnInContext: this.addNewCardToColumnInState,
+      moveCardNewColumnInContext: this.moveCardToNewColumnInState,
+      updateCardTitleInContext: this.updateCardTitleInState,
+      updateCardContentInContext: this.updateCardContentInState,
+      getCardIndex: this.getCardIndex,
+      setSelectedCard: this.setSelectedCard,
+    };
   }
 
   componentDidMount() {
@@ -41,13 +54,16 @@ class Board extends React.Component {
   }
 
   async getColumnData(columnRef) {
+    const columnSnapshot = await getColumn(columnRef);
+    const { name } = columnSnapshot.data();
     const cardsSnapshot = await getCards(columnRef);
     const cards = cardsSnapshot.docs.map(doc => ({
       ref: doc.ref,
-      data: doc.data(),
+      ...doc.data(),
     }));
     return {
       ref: columnRef,
+      name,
       cards,
     };
   }
@@ -60,6 +76,7 @@ class Board extends React.Component {
     const columnRef = await createNewColumn(this.state.boardRef, name);
     this.addNewColumnToState({
       ref: columnRef,
+      name,
       cards: [],
     });
   }
@@ -70,20 +87,14 @@ class Board extends React.Component {
     }));
   }
 
-  async createCard(index, title) {
-    const columnRef = this.state.columns[index]?.ref;
-    if (!columnRef || !title) {
-      return;
-    }
-
-    const cardRef = await createNewCard(columnRef, title);
-    this.addNewCardToColumnInState({
-      ref: cardRef,
-      data: {
-        title,
-        content: "",
-      }
-    }, index);
+  renameColumnInState(columnIndex, newName) {
+    this.setState(prevState => {
+      const { columns } = prevState;
+      columns[columnIndex].name = newName;
+      return {
+        columns,
+      };
+    });
   }
 
   addNewCardToColumnInState(card, columnIndex) {
@@ -94,18 +105,6 @@ class Board extends React.Component {
         columns,
       };
     });
-  }
-
-  async moveCard(cardIndex, columnIndex, newColumnIndex) {
-    const { columns } = this.state;
-    const cardRef = columns[columnIndex]?.cards[cardIndex]?.ref;
-    const newColumnRef = columns[newColumnIndex]?.ref;
-    if (!cardRef || !newColumnRef) {
-      return;
-    }
-
-    await moveCardToNewColumn(cardRef, newColumnRef);
-    this.moveCardToNewColumnInState(cardIndex, columnIndex, newColumnIndex);
   }
 
   moveCardToNewColumnInState(cardIndex, columnIndex, newColumnIndex) {
@@ -123,7 +122,12 @@ class Board extends React.Component {
   updateCardDataInState(cardIndex, columnIndex, newData) {
     this.setState(prevState => {
       const { columns } = prevState;
-      Object.assign(columns[columnIndex]?.cards[cardIndex]?.data, newData);
+      const card = columns[columnIndex]?.cards[cardIndex];
+      if (!card) {
+        return;
+      }
+      
+      columns[columnIndex].cards[cardIndex] = { ...card, ...newData };
       return {
         columns,
       };
@@ -149,7 +153,16 @@ class Board extends React.Component {
     return {
       columnIndex,
       cardIndex,
-    };  
+    };
+  }
+
+  setSelectedCard(columnIndex, cardIndex) {
+    this.setState({
+      selectedCard: {
+        columnIndex,
+        cardIndex,
+      },
+    });
   }
 
   render() {
@@ -159,41 +172,34 @@ class Board extends React.Component {
     }
 
     return (
-      <div className="board-container">
-        <Topbar />
-        <div className="columns-container">
-          {columns.map((column, index) => {
-            const { ref, cards } = column;
-            return (
-              <Column
-                key={ref.id}
-                columnRef={ref}
-                index={index}
-                columnCount={columns.length}
-                cards={cards}
-                onCreateCard={this.createCard}
-                onMoveCard={this.moveCard}
-              />)
-          })}
-          <div className="column">
-            <div className="column-header">
-              <CreateComponentButton
-                onCreate={this.createColumn}
-                placeholder="+ Add a new column"
-              />
+      <BoardContext.Provider value={this.state}>
+        <div className="board-container">
+          <Topbar />
+          <div className="columns-container">
+            {columns.map((column, index) => {
+              const { ref } = column;
+              return (
+                <Column
+                  key={ref.id}
+                  index={index}
+                />)
+            })}
+            <div className="column">
+              <div className="column-header">
+                <CreateComponentButton
+                  onCreate={this.createColumn}
+                  placeholder="+ Add a new column"
+                />
+              </div>
             </div>
           </div>
+          <Route path={endpoint.cardDetail}>
+            <CardDetail/>
+          </Route>
         </div>
-        <Route path={endpoint.cardDetail}>
-          <CardDetail
-            onUpdateCardTitle={this.updateCardTitleInState}
-            onUpdateCardContent={this.updateCardContentInState}
-            getCardIndex={this.getCardIndex}
-          />
-        </Route>
-      </div>
+      </BoardContext.Provider>
     );
   }
 }
 
-export default withRouter(Board);
+export default withRouter(withUser(Board));
