@@ -1,5 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import withBoard from "../../contexts/BoardContext/withBoard";
+import { moveCardToNewColumn } from "../../utils/db";
 
 import './Card.css';
 
@@ -18,44 +20,52 @@ class Card extends React.Component {
   }
 
   moveCard(direction) {
-    return event => {
-      const { onMoveCardToLeft, onMoveCardToRight, cardIndex } = this.props;
+    return async (event) => {
+      const { columns, columnIndex, cardIndex, moveCardNewColumnInContext } = this.props;
       event.stopPropagation();
       this.setMovingStatus(true);
-      
-      if (direction === 'left') {
-        onMoveCardToLeft(cardIndex);
-      } else if (direction === 'right') {
-        onMoveCardToRight(cardIndex);
+
+      const newColumnIndex = columnIndex + (direction === "left" ? -1 : 1);
+      const card = columns[columnIndex]?.cards[cardIndex];
+      const newColumn = columns[newColumnIndex];
+      if (!card || !newColumn) {
+        return;
       }
+
+      await moveCardToNewColumn(card.ref, newColumn.ref);
+      moveCardNewColumnInContext(cardIndex, columnIndex, newColumnIndex);
     }
   }
 
   showCardDetail() {
-    const { cardRef, title, content, cardIndex, columnIndex, history } = this.props;
-    const cardId = cardRef.id
-    const pathname = `/board/${cardId}`;
-    const state = {
-      cardId,
-      title,
-      content,
-      cardIndex,
-      columnIndex,
-    };
-    history.push({ pathname, state });
+    const { columns, cardIndex, columnIndex, setSelectedCard, history } = this.props;
+    const card = columns[columnIndex]?.cards[cardIndex];
+    if (!card) {
+      return;
+    }
+
+    const cardId = card.ref.id;
+    setSelectedCard(columnIndex, cardIndex);
+    history.push(`/board/${cardId}`);
   }
 
   render() {
-    const { title, isAtFirstColumn, isAtLastColumn } = this.props;
-    const { isMoving } = this.state;
+    const { columnIndex, cardIndex, columns } = this.props;
+    const card = columns[columnIndex]?.cards[cardIndex];
+    if (!card) {
+      return null;
+    }
 
+    const { isMoving } = this.state;
+    const isAtFirstColumn = columnIndex === 0;
+    const isAtLastColumn = columnIndex === columns.length - 1;
     return (
       <div
         className="card"
         onClick={this.showCardDetail}
       >
         <div className="card__title">
-          {title}
+          {card.title}
         </div>
         <div className="card__nav">
           <button
@@ -76,4 +86,4 @@ class Card extends React.Component {
   }
 }
 
-export default withRouter(Card);
+export default withRouter(withBoard(Card));
