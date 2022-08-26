@@ -28,9 +28,8 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { isLoaded, currentUser } = this.state;
     return (
-      <UserContext.Provider value={{ isLoaded, currentUser }}>
+      <UserContext.Provider value={this.state}>
         <BrowserRouter>
           <Switch>
             <Route exact path={endpoint.home}><Home/></Route>
