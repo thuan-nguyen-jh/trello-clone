@@ -7,7 +7,7 @@ const BoardContext = React.createContext({
 
   renameColumnInContext: () => {},
   addNewCardToColumnInContext: () => {},
-  moveCardNewColumnInContext: () => {},
+  moveCardToNewColumnInContext: () => {},
   updateCardTitleInContext: () => {},
   updateCardContentInContext: () => {},
   getCardIndex: () => {},

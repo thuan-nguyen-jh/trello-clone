@@ -21,11 +21,11 @@ class Card extends React.Component {
 
   moveCard(direction) {
     return async (event) => {
-      const { columns, columnIndex, cardIndex, moveCardNewColumnInContext } = this.props;
+      const { columns, columnIndex, cardIndex, moveCardToNewColumnInContext } = this.props;
       event.stopPropagation();
       this.setMovingStatus(true);
 
-      const newColumnIndex = columnIndex + (direction === "left" ? -1 : 1);
+      const newColumnIndex = direction === "left" ? columnIndex - 1 : columnIndex + 1;
       const card = columns[columnIndex]?.cards[cardIndex];
       const newColumn = columns[newColumnIndex];
       if (!card || !newColumn) {
@@ -33,7 +33,7 @@ class Card extends React.Component {
       }
 
       await moveCardToNewColumn(card.ref, newColumn.ref);
-      moveCardNewColumnInContext(cardIndex, columnIndex, newColumnIndex);
+      moveCardToNewColumnInContext(cardIndex, columnIndex, newColumnIndex);
     }
   }
 
