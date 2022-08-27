@@ -25,7 +25,7 @@ class Card extends React.Component {
       event.stopPropagation();
       this.setMovingStatus(true);
 
-      const newColumnIndex = columnIndex + (direction === "left" ? -1 : 1);
+      const newColumnIndex = direction === "left" ? columnIndex - 1 : columnIndex + 1;
       const card = columns[columnIndex]?.cards[cardIndex];
       const newColumn = columns[newColumnIndex];
       if (!card || !newColumn) {
