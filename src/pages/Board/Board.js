@@ -30,7 +30,7 @@ class Board extends React.Component {
 
       renameColumnInContext: this.renameColumnInState,
       addNewCardToColumnInContext: this.addNewCardToColumnInState,
-      moveCardNewColumnInContext: this.moveCardToNewColumnInState,
+      moveCardToNewColumnInContext: this.moveCardToNewColumnInState,
       updateCardTitleInContext: this.updateCardTitleInState,
       updateCardContentInContext: this.updateCardContentInState,
       getCardIndex: this.getCardIndex,

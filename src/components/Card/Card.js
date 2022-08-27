@@ -21,7 +21,7 @@ class Card extends React.Component {
 
   moveCard(direction) {
     return async (event) => {
-      const { columns, columnIndex, cardIndex, moveCardNewColumnInContext } = this.props;
+      const { columns, columnIndex, cardIndex, moveCardToNewColumnInContext } = this.props;
       event.stopPropagation();
       this.setMovingStatus(true);
 
@@ -33,7 +33,7 @@ class Card extends React.Component {
       }
 
       await moveCardToNewColumn(card.ref, newColumn.ref);
-      moveCardNewColumnInContext(cardIndex, columnIndex, newColumnIndex);
+      moveCardToNewColumnInContext(cardIndex, columnIndex, newColumnIndex);
     }
   }
 
